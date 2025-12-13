@@ -10,7 +10,7 @@ const Header = () => {
           </div>
           <div>
             <h1 className="text-xl font-semibold text-foreground">
-              Agentic AI — Resume Screening
+              RECRUIT.AI
             </h1>
             <p className="text-sm text-muted-foreground">
               Intelligent candidate analysis for HR teams
