@@ -1,6 +1,6 @@
 import { ResumeFile, CandidateAnalysis, ExtractedSkill, Mismatch } from '@/types/resume';
 
-const WEBHOOK_URL = 'http://localhost:5678/webhook-test/5a7364f4-04a3-4854-8d78-20a3cd09ccb3';
+const WEBHOOK_URL = 'https://eshant16.app.n8n.cloud/webhook/1eb9b11e-9cad-4ca0-a924-fb6f7419e7ab';
 
 export async function analyzeAllResumes(
   resumes: ResumeFile[],
