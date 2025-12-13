@@ -66,9 +66,10 @@ const Index = () => {
         description: `${results.length} candidate(s) have been ranked.`,
       });
     } catch (error) {
+      console.error('Analysis error:', error);
       toast({
         title: 'Analysis failed',
-        description: 'An error occurred during analysis. Please try again.',
+        description: error instanceof Error ? error.message : 'An error occurred during analysis. Please try again.',
         variant: 'destructive',
       });
     } finally {
