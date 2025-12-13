@@ -22,6 +22,9 @@ export async function analyzeAllResumes(
   onProgress?.(30, 'Sending to AI analysis...');
 
   try {
+    console.log('Sending analysis request to webhook:', WEBHOOK_URL);
+    console.log('Payload:', JSON.stringify(payload, null, 2));
+    
     const response = await fetch(WEBHOOK_URL, {
       method: 'POST',
       headers: {
@@ -30,8 +33,12 @@ export async function analyzeAllResumes(
       body: JSON.stringify(payload)
     });
 
+    console.log('Response status:', response.status);
+
     if (!response.ok) {
-      throw new Error(`API error: ${response.status}`);
+      const errorText = await response.text();
+      console.error('API error response:', errorText);
+      throw new Error(`API error: ${response.status} - ${errorText}`);
     }
 
     onProgress?.(70, 'Processing results...');
@@ -72,6 +79,9 @@ export async function analyzeAllResumes(
     return results.sort((a, b) => b.fitScore - a.fitScore);
   } catch (error) {
     console.error('API call failed:', error);
+    if (error instanceof TypeError && error.message.includes('fetch')) {
+      throw new Error('Network error: Unable to reach the analysis server. This may be a CORS issue or the server is unavailable.');
+    }
     throw error;
   }
 }
