@@ -1,6 +1,5 @@
 import { ResumeFile, CandidateAnalysis, ExtractedSkill, Mismatch } from '@/types/resume';
-
-const WEBHOOK_URL = 'https://eshant16.app.n8n.cloud/webhook/1eb9b11e-9cad-4ca0-a924-fb6f7419e7ab';
+import { supabase } from '@/integrations/supabase/client';
 
 export async function analyzeAllResumes(
   resumes: ResumeFile[],
@@ -22,28 +21,26 @@ export async function analyzeAllResumes(
   onProgress?.(30, 'Sending to AI analysis...');
 
   try {
-    console.log('Sending analysis request to webhook:', WEBHOOK_URL);
+    console.log('Sending analysis request to edge function');
     console.log('Payload:', JSON.stringify(payload, null, 2));
     
-    const response = await fetch(WEBHOOK_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload)
+    const { data, error } = await supabase.functions.invoke('analyze-resumes', {
+      body: payload
     });
 
-    console.log('Response status:', response.status);
+    if (error) {
+      console.error('Edge function error:', error);
+      throw new Error(`Analysis failed: ${error.message}`);
+    }
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('API error response:', errorText);
-      throw new Error(`API error: ${response.status} - ${errorText}`);
+    console.log('Response data:', data);
+
+    if (data?.error) {
+      console.error('API error response:', data.error);
+      throw new Error(`API error: ${data.error}`);
     }
 
     onProgress?.(70, 'Processing results...');
-
-    const data = await response.json();
     
     onProgress?.(90, 'Formatting candidates...');
 
