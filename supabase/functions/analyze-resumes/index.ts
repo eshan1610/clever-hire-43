@@ -5,7 +5,7 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-const N8N_WEBHOOK_URL = 'https://eshant16.app.n8n.cloud/webhook/1eb9b11e-9cad-4ca0-a924-fb6f7419e7ab';
+const N8N_WEBHOOK_URL = 'https://eshant16.app.n8n.cloud/webhook/3c6692fb-f45c-44b9-b04b-c5dbaef668eb';
 
 serve(async (req) => {
   // Handle CORS preflight requests
