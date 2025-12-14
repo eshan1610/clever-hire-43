@@ -20,12 +20,20 @@ serve(async (req) => {
     console.log('Job description length:', jobDescription?.length);
     console.log('Number of resumes:', resumes?.length);
 
+    // Combine all resume texts for the n8n webhook
+    const resumeText = resumes?.map((r: { name: string; content: string }) => 
+      `--- ${r.name} ---\n${r.content}`
+    ).join('\n\n') || '';
+
     const response = await fetch(N8N_WEBHOOK_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ jobDescription, resumes })
+      body: JSON.stringify({ 
+        resume_text: resumeText,
+        job_desc: jobDescription 
+      })
     });
 
     console.log('n8n response status:', response.status);
