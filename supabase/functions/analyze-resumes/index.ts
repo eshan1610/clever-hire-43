@@ -48,8 +48,11 @@ serve(async (req) => {
     const data = await response.json();
     console.log('n8n response data:', JSON.stringify(data).slice(0, 500));
 
+    // Handle n8n response format - extract from 'output' wrapper if present
+    const analysisData = data.output || data;
+
     return new Response(
-      JSON.stringify(data),
+      JSON.stringify(analysisData),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
     );
   } catch (error: unknown) {
