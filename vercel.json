@@ -3,7 +3,7 @@ JSON
   "rewrites": [
     {
       "source": "/api/:match*",
-      "destination": "https://[YOUR-HUGGING-FACE-URL].hf.space/webhook/:match*"
+      "destination": "https://[https://huggingface.co/spaces/eshan16/my-n8n-agent/tree/main].hf.space/webhook/:match*"
     }
   ]
 }
