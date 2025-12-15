@@ -57,15 +57,23 @@ export async function analyzeAllResumes(
         level: skill.level || 'intermediate',
         yearsOfExperience: skill.yearsOfExperience || skill.years || 0
       })) as ExtractedSkill[],
-      totalExperience: candidate.totalExperience || candidate.experience || 0,
-      experienceBreakdown: candidate.experienceBreakdown || candidate.experiences || [],
-      education: candidate.education || [],
+      totalExperience: typeof candidate.totalExperience === 'number' 
+        ? candidate.totalExperience 
+        : parseFloat(candidate.experience) || 0,
+      experienceBreakdown: Array.isArray(candidate.experienceBreakdown) 
+        ? candidate.experienceBreakdown 
+        : (candidate.experienceBreakdown ? [candidate.experienceBreakdown] : []),
+      education: Array.isArray(candidate.education) 
+        ? candidate.education 
+        : (candidate.education ? [candidate.education] : []),
       mismatches: (candidate.mismatches || []).map((m: any) => ({
         type: m.type || 'missing_skill',
         description: typeof m === 'string' ? m : m.description,
         severity: m.severity || 'medium'
       })) as Mismatch[],
-      strengths: candidate.strengths || [],
+      strengths: Array.isArray(candidate.strengths) 
+        ? candidate.strengths 
+        : (candidate.summary ? [candidate.summary] : []),
       rawContent: candidate.rawContent || resumes.find(r => r.id === candidate.resumeId)?.content || '',
       analyzedAt: new Date(candidate.analyzedAt || Date.now())
     }));
