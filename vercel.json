@@ -1,0 +1,9 @@
+JSON
+{
+  "rewrites": [
+    {
+      "source": "/api/:match*",
+      "destination": "https://[YOUR-HUGGING-FACE-URL].hf.space/webhook/:match*"
+    }
+  ]
+}
