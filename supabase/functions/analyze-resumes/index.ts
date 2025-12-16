@@ -5,7 +5,7 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-const N8N_WEBHOOK_URL = 'https://eshant16.app.n8n.cloud/webhook/3c6692fb-f45c-44b9-b04b-c5dbaef668eb';
+const N8N_WEBHOOK_URL = 'https://eshant16.app.n8n.cloud/webhook/ec096635-1b5b-4c97-a247-5b377284bf21';
 
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
